@@ -137,6 +137,7 @@ task_05/
 ### Основные компоненты
 
 #### Backend (src/apps/server)
+
 - Express.js сервер с TypeScript
 - Prisma ORM для работы с PostgreSQL
 - JWT аутентификация
@@ -144,6 +145,7 @@ task_05/
 - Middleware для авторизации и ролей
 
 #### Frontend (src/apps/web)
+
 - React 18 с TypeScript
 - Vite для сборки
 - React Router v6 для маршрутизации

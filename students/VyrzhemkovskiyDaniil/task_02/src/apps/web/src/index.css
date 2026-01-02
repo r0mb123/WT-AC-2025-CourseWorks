@@ -204,8 +204,18 @@ body {
   font-weight: 500;
 }
 
+.booking-venue-info h3 a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
 .footer-section a:hover {
   color: var(--text-light);
+}
+
+.booking-venue-info h3 a:hover {
+  color: var(--primary-color);
 }
 
 .footer-bottom {
@@ -336,6 +346,18 @@ body {
   font-size: 1rem;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+}
+
+.review-form textarea {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.3s;
 }
 
 .form-group input:focus,
@@ -998,16 +1020,6 @@ body {
   color: var(--text-primary);
 }
 
-.booking-venue-info h3 a {
-  color: var(--text-primary);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.booking-venue-info h3 a:hover {
-  color: var(--primary-color);
-}
-
 .venue-type-small {
   display: inline-block;
   background-color: var(--bg-secondary);
@@ -1425,18 +1437,6 @@ body {
   margin-left: var(--spacing-sm);
   color: var(--text-secondary);
   font-weight: 600;
-}
-
-.review-form textarea {
-  width: 100%;
-  padding: var(--spacing-md);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  font-family: inherit;
-  font-size: 1rem;
-  resize: vertical;
-  min-height: 100px;
-  transition: border-color 0.3s;
 }
 
 .review-form textarea:focus {

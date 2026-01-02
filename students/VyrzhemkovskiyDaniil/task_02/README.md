@@ -208,6 +208,7 @@ pnpm dev  # Запустит оба сервера одновременно
 Пользователь 2:
   Email: petr.petrov@example.com
   Password: password123
+
 ```
 
 ---
@@ -215,6 +216,7 @@ pnpm dev  # Запустит оба сервера одновременно
 ## 📁 Структура проекта
 
 ```
+
 task_05/
 ├── src/
 │   ├── apps/
@@ -262,6 +264,7 @@ task_05/
 ├── pnpm-workspace.yaml      # pnpm workspace конфигурация
 ├── package.json             # Root package.json
 └── README.md                # Этот файл
+
 ```
 
 ---
@@ -345,6 +348,7 @@ code --install-extension humao.rest-client
 - [ ] Хэширование паролей (bcrypt)
 
 #### 2.4 API endpoints - Venues (Площадки)
+
 - [ ] GET /api/venues — список всех площадок (с фильтрами и пагинацией)
 - [ ] GET /api/venues/:id — детали площадки
 - [ ] POST /api/venues — создание площадки (только admin)
@@ -353,6 +357,7 @@ code --install-extension humao.rest-client
 - [ ] Валидация входных данных (express-validator/zod)
 
 #### 2.5 API endpoints - Slots (Временные слоты)
+
 - [ ] GET /api/slots — список слотов (фильтр по venue, date)
 - [ ] GET /api/venues/:venueId/slots — слоты для конкретной площадки
 - [ ] POST /api/slots — создание слота (только admin)
@@ -360,6 +365,7 @@ code --install-extension humao.rest-client
 - [ ] DELETE /api/slots/:id — удаление слота (только admin)
 
 #### 2.6 API endpoints - Bookings (Бронирования)
+
 - [ ] GET /api/bookings — список броней пользователя
 - [ ] GET /api/bookings/:id — детали брони
 - [ ] POST /api/bookings — создание брони (authenticated)
@@ -369,17 +375,20 @@ code --install-extension humao.rest-client
 - [ ] Реализовать расчёт стоимости
 
 #### 2.7 API endpoints - Reviews (Отзывы)
+
 - [ ] GET /api/venues/:venueId/reviews — отзывы для площадки
 - [ ] POST /api/reviews — создание отзыва (authenticated)
 - [ ] PUT /api/reviews/:id — обновление отзыва (только автор)
 - [ ] DELETE /api/reviews/:id — удаление отзыва (автор или admin)
 
 #### 2.8 Оплата (заглушка)
+
 - [ ] POST /api/payments/create — создание платежа (mock)
 - [ ] POST /api/payments/confirm — подтверждение платежа (mock)
 - [ ] Сохранение статуса оплаты в Booking
 
 #### 2.9 Обработка ошибок
+
 - [ ] Создать централизованный error handler
 - [ ] Добавить человекочитаемые сообщения об ошибках
 - [ ] Логирование ошибок
@@ -388,8 +397,8 @@ code --install-extension humao.rest-client
 
 ### ЭТАП 3: Frontend (Web Client) - Базовый MVP
 
-
 #### 3.1 Инициализация клиента
+
 - [ ] Создать React + TypeScript проект (Vite)
 - [ ] Настроить React Router для маршрутизации
 - [ ] Настроить axios/fetch для API запросов
@@ -440,8 +449,8 @@ code --install-extension humao.rest-client
 
 ### ЭТАП 4: Интеграция и Docker
 
-
 #### 4.1 Docker контейнеризация
+
 - [ ] Создать Dockerfile для сервера (src/apps/server/Dockerfile)
 - [ ] Создать Dockerfile для клиента (src/apps/web/Dockerfile)
 - [ ] Создать docker-compose.yml:
@@ -464,6 +473,7 @@ code --install-extension humao.rest-client
 ### ЭТАП 5: Тестирование и документация MVP
 
 #### 5.1 Функциональное тестирование
+
 - [ ] Тестирование всех user flows вручную
 - [ ] Проверка всех API endpoints (Postman/REST Client)
 - [ ] Проверка валидации на клиенте и сервере
@@ -481,7 +491,6 @@ code --install-extension humao.rest-client
 
 ### БОНУС 1: Документация API (+8 баллов)
 
-
 - [ ] Установить Swagger/OpenAPI (swagger-ui-express)
 - [ ] Создать openapi.yaml с описанием всех endpoints
 - [ ] Добавить примеры запросов и ответов
@@ -490,8 +499,8 @@ code --install-extension humao.rest-client
 
 ### БОНУС 2: Тестирование (+15 баллов)
 
-
 #### Unit/Integration тесты (сервер)
+
 - [ ] Настроить Jest/Vitest
 - [ ] Unit тесты для services/controllers
 - [ ] Integration тесты для API endpoints
@@ -507,7 +516,6 @@ code --install-extension humao.rest-client
 - [ ] Тесты админ-панели
 
 ### БОНУС 3: Kubernetes (+15 баллов)
-
 
 - [ ] Создать папку k8s/base/
 - [ ] namespace.yaml — создание namespace
@@ -526,7 +534,6 @@ code --install-extension humao.rest-client
 - [ ] Создать overlays/dev и overlays/prod (Kustomize)
 
 ### БОНУС 4: CI/CD (+7 баллов)
-
 
 - [ ] Создать .github/workflows/ci.yml
 - [ ] Job 1: Линтинг (ESLint, Prettier)
@@ -707,7 +714,6 @@ pnpm dev
 
 ### Вариант 2: Через Docker Compose (полный стек)
 
-
 ```bash
 # Запустить все сервисы
 docker-compose up -d
@@ -720,7 +726,6 @@ docker-compose exec server pnpm prisma db seed
 ```
 
 ### Тестирование API
-
 
 ```bash
 # Использовать файл test-api.http в VS Code
@@ -737,10 +742,7 @@ pnpm prisma studio
 
 ### Реализовано (100%)
 
-
 #### Backend
-
-
 - ✅ **Утилиты**: JWT, хэширование паролей, логирование, Prisma клиент
 - ✅ **Middleware**: аутентификация, роли, валидация (Zod), обработка ошибок
 - ✅ **Auth модуль**: регистрация, вход, получение профиля, смена пароля
@@ -757,7 +759,6 @@ pnpm prisma studio
 
 - ✅ **Страницы**: Home, VenueDetails, Login, Register, Profile, MyBookings, Admin
 - ✅ **Компоненты**: VenueCard, VenueFilters, BookingCard, ReviewCard, SlotCalendar
-- ✅ **Аутентификация**: AuthContext, Protected Routes, JWT interceptors
 - ✅ **Формы**: React Hook Form + Zod валидация
 - ✅ **Responsive дизайн**: адаптивная верстка для всех устройств
 
