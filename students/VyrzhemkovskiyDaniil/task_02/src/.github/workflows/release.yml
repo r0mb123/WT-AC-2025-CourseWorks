@@ -1,0 +1,102 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      
+      - name: Generate Changelog
+        id: changelog
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          if [ -z "$PREVIOUS_TAG" ]; then
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          else
+            CHANGELOG=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          fi
+          
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Create and Push Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a "v${{ inputs.version }}" -m "Release v${{ inputs.version }}"
+          git push origin "v${{ inputs.version }}"
+      
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ inputs.version }}
+          release_name: Release v${{ inputs.version }}
+          body: |
+            ## 🚀 Sports Venues Platform v${{ inputs.version }}
+            
+            ### 📝 Changelog
+            ${{ steps.changelog.outputs.CHANGELOG }}
+            
+            ### 🐳 Docker Images
+            ```bash
+            # Backend
+            docker pull <username>/sports-venues-backend:${{ inputs.version }}
+            
+            # Frontend
+            docker pull <username>/sports-venues-frontend:${{ inputs.version }}
+            ```
+            
+            ### 📦 Quick Start
+            ```bash
+            # Clone repository
+            git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+            cd YOUR_REPO
+            git checkout v${{ inputs.version }}
+            
+            # Run with Docker Compose
+            docker-compose up -d
+            
+            # Access
+            # Frontend: http://localhost:5173
+            # Backend: http://localhost:3000
+            # Swagger: http://localhost:3000/api-docs
+            ```
+            
+            ### ✨ Features
+            - Full-stack TypeScript application
+            - REST API with OpenAPI/Swagger documentation
+            - React 18 + Vite frontend
+            - PostgreSQL database with Prisma ORM
+            - JWT authentication
+            - Docker containerization
+            - CI/CD with GitHub Actions
+            
+            ### 📚 Documentation
+            - [Installation Guide](README.md#-quick-start)
+            - [API Documentation](http://localhost:3000/api-docs)
+            - [CI/CD Pipeline](docs/CI_CD.md)
+            - [Docker Guide](DOCKER.md)
+          draft: false
+          prerelease: false

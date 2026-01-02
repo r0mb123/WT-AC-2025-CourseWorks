@@ -1,0 +1,375 @@
+@baseUrl = http://localhost:3000/api
+
+# Получите эти значения из test-api.http:
+# 1. Сначала выполните loginAdmin и loginUser в test-api.http
+# 2. Скопируйте токены сюда
+# 3. Получите venueId из списка площадок
+# 4. Получите slotId из списка слотов для выбранной площадки
+# 5. Получите userId из профиля пользователя
+
+# Замените на реальные значения:
+@adminToken = your-admin-token-here
+@userToken = your-user-token-here
+@venueId = your-venue-id-here
+@slotId = your-slot-id-here
+@userId = your-user-id-here
+@bookingId = will-be-set-after-creating-booking
+@reviewId = will-be-set-after-creating-review
+
+### ========================================
+### BOOKINGS ENDPOINTS
+### ========================================
+
+### 1. Проверить доступность слота
+GET {{baseUrl}}/bookings/check/{{slotId}}
+
+### 2. Получить все бронирования (для текущего пользователя)
+GET {{baseUrl}}/bookings
+Authorization: Bearer {{userToken}}
+
+### 3. Получить все бронирования (админ видит все)
+GET {{baseUrl}}/bookings
+Authorization: Bearer {{adminToken}}
+
+### 4. Получить бронирования с фильтрами
+# По статусу
+GET {{baseUrl}}/bookings?status=CONFIRMED
+Authorization: Bearer {{adminToken}}
+
+# По площадке
+GET {{baseUrl}}/bookings?venueId={{venueId}}
+Authorization: Bearer {{adminToken}}
+
+# По датам
+GET {{baseUrl}}/bookings?startDate=2025-01-05T00:00:00Z&endDate=2025-01-10T23:59:59Z
+Authorization: Bearer {{userToken}}
+
+# С пагинацией
+GET {{baseUrl}}/bookings?page=1&limit=5
+Authorization: Bearer {{userToken}}
+
+### 5. Получить конкретное бронирование по ID
+GET {{baseUrl}}/bookings/{{bookingId}}
+Authorization: Bearer {{userToken}}
+
+### 6. Создать новое бронирование
+# @name createBooking
+POST {{baseUrl}}/bookings
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "slotId": "{{slotId}}",
+  "notes": "Бронирование для тренировки команды"
+}
+
+### Сохранить ID созданного бронирования
+@bookingId = {{createBooking.response.body.id}}
+
+### 7. Отменить бронирование (с причиной)
+POST {{baseUrl}}/bookings/{{bookingId}}/cancel
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "reason": "Изменились планы"
+}
+
+### 8. Отменить бронирование (без причины)
+POST {{baseUrl}}/bookings/{{bookingId}}/cancel
+Authorization: Bearer {{userToken}}
+
+### 9. Обновить статус бронирования (только ADMIN)
+# Подтвердить бронирование
+PUT {{baseUrl}}/bookings/{{bookingId}}/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "CONFIRMED"
+}
+
+### 10. Завершить бронирование (только ADMIN)
+PUT {{baseUrl}}/bookings/{{bookingId}}/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "COMPLETED"
+}
+
+### ========================================
+### BOOKINGS - ERROR CASES
+### ========================================
+
+### ❌ Создать бронирование без авторизации
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "slotId": "{{slotId}}"
+}
+
+### ❌ Создать бронирование для несуществующего слота
+POST {{baseUrl}}/bookings
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "slotId": "00000000-0000-0000-0000-000000000000"
+}
+
+### ❌ Создать бронирование для уже забронированного слота
+POST {{baseUrl}}/bookings
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "slotId": "{{slotId}}"
+}
+
+### ❌ Получить несуществующее бронирование
+GET {{baseUrl}}/bookings/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{userToken}}
+
+### ========================================
+### REVIEWS ENDPOINTS
+### ========================================
+
+### 1. Получить все отзывы
+GET {{baseUrl}}/reviews
+
+### 2. Получить отзывы для конкретной площадки
+GET {{baseUrl}}/reviews?venueId={{venueId}}
+
+### 3. Получить отзывы пользователя
+GET {{baseUrl}}/reviews?userId={{userId}}
+
+### 4. Получить отзывы с рейтингом 5
+GET {{baseUrl}}/reviews?rating=5
+
+### 5. Получить отзывы с фильтрами и сортировкой
+GET {{baseUrl}}/reviews?venueId={{venueId}}&sortBy=rating&order=desc
+
+### 6. Получить отзывы с пагинацией
+GET {{baseUrl}}/reviews?page=1&limit=10
+
+### 7. Получить статистику отзывов для площадки
+GET {{baseUrl}}/reviews/stats/{{venueId}}
+
+### 8. Получить отзыв по ID
+GET {{baseUrl}}/reviews/{{reviewId}}
+
+### 9. Создать новый отзыв (требуется завершённое бронирование)
+# @name createReview
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 5,
+  "comment": "Отличная площадка! Всё было на высшем уровне. Чистая раздевалка, хорошее освещение, удобное расположение."
+}
+
+### Сохранить ID созданного отзыва
+@reviewId = {{createReview.response.body.id}}
+
+### 10. Создать отзыв без комментария (только рейтинг)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 4
+}
+
+### 11. Обновить свой отзыв (рейтинг)
+PUT {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "rating": 5
+}
+
+### 12. Обновить свой отзыв (комментарий)
+PUT {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "comment": "Обновляю свой отзыв: всё было просто прекрасно! Обязательно вернусь сюда снова."
+}
+
+### 13. Обновить свой отзыв (рейтинг и комментарий)
+PUT {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "comment": "Полностью обновлённый отзыв с новым рейтингом и комментарием."
+}
+
+### 14. Удалить свой отзыв
+DELETE {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{userToken}}
+
+### 15. Удалить отзыв (админ)
+DELETE {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{adminToken}}
+
+### ========================================
+### REVIEWS - СЦЕНАРИИ ИСПОЛЬЗОВАНИЯ
+### ========================================
+
+### Сценарий 1: Полный цикл работы с отзывами
+# Шаг 1: Проверить статистику до добавления отзыва
+GET {{baseUrl}}/reviews/stats/{{venueId}}
+
+# Шаг 2: Создать отзыв
+# @name scenarioReview
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 5,
+  "comment": "Отличное место для игры в футбол!"
+}
+
+@scenarioReviewId = {{scenarioReview.response.body.id}}
+
+# Шаг 3: Посмотреть созданный отзыв
+GET {{baseUrl}}/reviews/{{scenarioReviewId}}
+
+# Шаг 4: Обновить отзыв
+PUT {{baseUrl}}/reviews/{{scenarioReviewId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "comment": "Хорошее место, но были небольшие недочёты."
+}
+
+# Шаг 5: Проверить обновлённую статистику
+GET {{baseUrl}}/reviews/stats/{{venueId}}
+
+# Шаг 6: Удалить отзыв
+DELETE {{baseUrl}}/reviews/{{scenarioReviewId}}
+Authorization: Bearer {{userToken}}
+
+### Сценарий 2: Просмотр отзывов площадки
+# Получить все отзывы площадки с высоким рейтингом
+GET {{baseUrl}}/reviews?venueId={{venueId}}&rating=5
+
+# Получить последние отзывы
+GET {{baseUrl}}/reviews?venueId={{venueId}}&sortBy=createdAt&order=desc&limit=5
+
+# Получить отзывы отсортированные по рейтингу
+GET {{baseUrl}}/reviews?venueId={{venueId}}&sortBy=rating&order=desc
+
+### ========================================
+### REVIEWS - ERROR CASES
+### ========================================
+
+### ❌ Создать отзыв без авторизации
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 5
+}
+
+### ❌ Создать отзыв для несуществующей площадки
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "00000000-0000-0000-0000-000000000000",
+  "rating": 5
+}
+
+### ❌ Создать отзыв без завершённого бронирования
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 5,
+  "comment": "Попытка оставить отзыв без бронирования"
+}
+
+### ❌ Создать второй отзыв на ту же площадку
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 4
+}
+
+### ❌ Создать отзыв с невалидным рейтингом (больше 5)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 10
+}
+
+### ❌ Создать отзыв с невалидным рейтингом (меньше 1)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 0
+}
+
+### ❌ Создать отзыв со слишком коротким комментарием
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "venueId": "{{venueId}}",
+  "rating": 5,
+  "comment": "Отлично"
+}
+
+### ❌ Обновить чужой отзыв (не админ)
+PUT {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "rating": 1
+}
+
+### ❌ Обновить отзыв без данных
+PUT {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{}
+
+### ❌ Удалить чужой отзыв (не админ, не владелец площадки)
+DELETE {{baseUrl}}/reviews/{{reviewId}}
+Authorization: Bearer {{userToken}}
+
+### ❌ Получить несуществующий отзыв
+GET {{baseUrl}}/reviews/00000000-0000-0000-0000-000000000000
+
+### ❌ Получить статистику для несуществующей площадки
+GET {{baseUrl}}/reviews/stats/00000000-0000-0000-0000-000000000000

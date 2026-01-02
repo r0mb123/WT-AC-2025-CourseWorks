@@ -1,0 +1,58 @@
+{
+  "name": "sports-venues-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Спортплощадки «Играем?» - платформа для бронирования спортивных площадок",
+  "scripts": {
+    "dev": "pnpm --parallel --filter server --filter web dev",
+    "dev:server": "pnpm --filter server dev",
+    "dev:web": "pnpm --filter web dev",
+    "build": "pnpm --filter server build && pnpm --filter web build",
+    "build:server": "pnpm --filter server build",
+    "build:web": "pnpm --filter web build",
+    "start": "pnpm --filter server start",
+    "lint": "pnpm --recursive lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "pnpm --recursive test",
+    "test:e2e": "playwright test",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:build": "docker-compose build",
+    "docker:restart": "docker-compose restart",
+    "docker:clean": "docker-compose down -v",
+    "db:migrate": "pnpm --filter server prisma migrate dev",
+    "db:migrate:deploy": "pnpm --filter server prisma migrate deploy",
+    "db:seed": "pnpm --filter server prisma db seed",
+    "db:studio": "pnpm --filter server prisma studio",
+    "db:reset": "pnpm --filter server prisma migrate reset",
+    "db:generate": "pnpm --filter server prisma generate",
+    "health": "curl http://localhost:3000/health"
+  },
+  "keywords": [
+    "sports",
+    "venues",
+    "booking",
+    "fullstack",
+    "typescript",
+    "react",
+    "express"
+  ],
+  "author": "Yarmola Aleksandr",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+# Build output
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+
+# Prisma
+prisma/migrations/*_migration/
+
+# Logs
+*.log
+
+# Testing
+coverage/
+
+# OS
+.DS_Store

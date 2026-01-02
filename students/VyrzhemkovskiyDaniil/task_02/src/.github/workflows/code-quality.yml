@@ -1,0 +1,83 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  prettier:
+    name: Check Code Formatting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      
+      - name: Install dependencies
+        run: |
+          npm install -g prettier
+      
+      - name: Check Backend formatting
+        run: |
+          cd src/apps/server
+          prettier --check "src/**/*.{ts,tsx,js,jsx,json}" || echo "Formatting issues in backend"
+      
+      - name: Check Frontend formatting
+        run: |
+          cd src/apps/web
+          prettier --check "src/**/*.{ts,tsx,js,jsx,json,css}" || echo "Formatting issues in frontend"
+
+  typescript:
+    name: TypeScript Type Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+      
+      - name: Install Backend Dependencies
+        run: |
+          cd src/apps/server
+          npm ci
+      
+      - name: TypeScript Check Backend
+        run: |
+          cd src/apps/server
+          npx tsc --noEmit
+      
+      - name: Install Frontend Dependencies
+        run: |
+          cd src/apps/web
+          npm ci
+      
+      - name: TypeScript Check Frontend
+        run: |
+          cd src/apps/web
+          npx tsc --noEmit
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
