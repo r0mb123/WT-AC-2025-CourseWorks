@@ -1,20 +1,44 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+DO $$ BEGIN
+ CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 
 -- CreateEnum
-CREATE TYPE "VenueType" AS ENUM ('FOOTBALL', 'BASKETBALL', 'TENNIS', 'VOLLEYBALL', 'BADMINTON', 'TABLE_TENNIS', 'OTHER');
+DO $$ BEGIN
+ CREATE TYPE "VenueType" AS ENUM ('FOOTBALL', 'BASKETBALL', 'TENNIS', 'VOLLEYBALL', 'BADMINTON', 'TABLE_TENNIS', 'OTHER');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 
 -- CreateEnum
-CREATE TYPE "SlotStatus" AS ENUM ('AVAILABLE', 'BOOKED', 'BLOCKED');
+DO $$ BEGIN
+ CREATE TYPE "SlotStatus" AS ENUM ('AVAILABLE', 'BOOKED', 'BLOCKED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 
 -- CreateEnum
-CREATE TYPE "BookingStatus" AS ENUM ('PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED');
+DO $$ BEGIN
+ CREATE TYPE "BookingStatus" AS ENUM ('PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 
 -- CreateEnum
-CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'PAID', 'REFUNDED', 'FAILED');
+DO $$ BEGIN
+ CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'PAID', 'REFUNDED', 'FAILED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 
 -- CreateEnum
-CREATE TYPE "SubscriptionType" AS ENUM ('MONTHLY', 'YEARLY');
+DO $$ BEGIN
+ CREATE TYPE "SubscriptionType" AS ENUM ('MONTHLY', 'YEARLY');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 
 -- CreateTable
 CREATE TABLE "users" (

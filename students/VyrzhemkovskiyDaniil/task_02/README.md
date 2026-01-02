@@ -192,8 +192,6 @@ pnpm dev
 pnpm dev  # Запустит оба сервера одновременно
 ```
 
-```
-
 ### Тестовые учётные записи
 
 ```
@@ -739,10 +737,8 @@ pnpm prisma studio
 
 ## ✅ Текущий прогресс разработки
 
-
 ### Реализовано (100%)
 
-#### Backend
 - ✅ **Утилиты**: JWT, хэширование паролей, логирование, Prisma клиент
 - ✅ **Middleware**: аутентификация, роли, валидация (Zod), обработка ошибок
 - ✅ **Auth модуль**: регистрация, вход, получение профиля, смена пароля
@@ -753,17 +749,12 @@ pnpm prisma studio
 - ✅ **Prisma схема**: User, Venue, Slot, Booking, Review, Subscription (6 таблиц)
 - ✅ **Seed данные**: тестовые пользователи и площадки с реальными изображениями
 - ✅ **API Documentation**: Swagger UI на /api-docs
-
-#### Frontend
-
-
 - ✅ **Страницы**: Home, VenueDetails, Login, Register, Profile, MyBookings, Admin
 - ✅ **Компоненты**: VenueCard, VenueFilters, BookingCard, ReviewCard, SlotCalendar
 - ✅ **Формы**: React Hook Form + Zod валидация
 - ✅ **Responsive дизайн**: адаптивная верстка для всех устройств
 
-#### Тестовые учётные записи
-
+**Тестовые учётные записи:**
 
 - **Admin**: `admin@sports-venues.com` / `password123`
 - **User1**: `ivan.ivanov@example.com` / `password123`
