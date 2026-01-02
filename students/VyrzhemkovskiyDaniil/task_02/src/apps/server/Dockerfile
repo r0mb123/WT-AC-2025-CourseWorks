@@ -6,7 +6,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Установить pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@latest
 
 # Копировать package.json из корня и workspace
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
@@ -18,12 +18,9 @@ RUN pnpm install
 # Копировать исходники сервера
 COPY src/apps/server ./src/apps/server
 
-# Сгенерировать Prisma Client
+# Сгенерировать Prisma Client и собрать TypeScript
 WORKDIR /app/src/apps/server
-RUN pnpm prisma generate
-
-# Собрать TypeScript
-RUN pnpm build
+RUN pnpm prisma generate && pnpm build
 
 # Stage 2: Production
 FROM node:20-alpine
@@ -31,15 +28,15 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Установить pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@latest
 
 # Копировать package.json
 COPY package.json pnpm-workspace.yaml ./
 COPY src/apps/server/package.json ./src/apps/server/
 
 # Установить только production зависимости + prisma для миграций
-RUN pnpm install --prod
-RUN pnpm add -g prisma
+RUN pnpm install --prod && \
+    pnpm add -g prisma@latest
 
 # Копировать собранный код из builder
 COPY --from=builder /app/src/apps/server/dist ./src/apps/server/dist

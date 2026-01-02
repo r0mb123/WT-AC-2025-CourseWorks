@@ -6,7 +6,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Установить pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@latest
 
 # Копировать package.json из корня и workspace
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./

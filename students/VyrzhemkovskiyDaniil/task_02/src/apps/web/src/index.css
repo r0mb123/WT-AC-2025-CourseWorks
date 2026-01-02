@@ -11,20 +11,20 @@
   --error-color: #f44336;
   
   /* Backgrounds */
-  --bg-primary: #ffffff;
+  --bg-primary: #fff;
   --bg-secondary: #f5f5f5;
   --bg-dark: #1a1a1a;
   --bg-darker: #0d0d0d;
   
   /* Text */
-  --text-primary: #333333;
-  --text-secondary: #666666;
-  --text-light: #ffffff;
-  --text-muted: #999999;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-light: #fff;
+  --text-muted: #999;
   
   /* Borders */
   --border-color: #e0e0e0;
-  --border-dark: #333333;
+  --border-dark: #333;
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -39,18 +39,17 @@
   --radius-lg: 12px;
   
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 12%);
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 10%);
+  --shadow-lg: 0 10px 20px rgb(0 0 0 / 15%);
   
   /* Font */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.6;
   font-weight: 400;
-  
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -137,7 +136,7 @@ body {
 }
 
 .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(255 255 255 / 10%);
 }
 
 .auth-section {
@@ -200,6 +199,11 @@ body {
   text-decoration: none;
 }
 
+.auth-footer a {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
 .footer-section a:hover {
   color: var(--text-light);
 }
@@ -248,7 +252,7 @@ body {
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(255 255 255 / 10%);
 }
 
 .btn-danger {
@@ -323,12 +327,23 @@ body {
   color: var(--text-primary);
 }
 
+.filter-group input,
+.filter-group select {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 0 0 2px rgb(76 175 80 / 20%);
 }
 
 .form-group input:disabled,
@@ -340,11 +355,6 @@ body {
 .auth-footer {
   margin-top: var(--spacing-lg);
   text-align: center;
-}
-
-.auth-footer a {
-  color: var(--primary-color);
-  font-weight: 500;
 }
 
 .demo-credentials {
@@ -424,17 +434,6 @@ body {
   display: block;
   margin-bottom: var(--spacing-sm);
   font-weight: 500;
-  color: var(--text-primary);
-}
-
-.filter-group input,
-.filter-group select {
-  width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  font-size: 1rem;
-  background-color: var(--bg-primary);
   color: var(--text-primary);
 }
 
@@ -677,16 +676,16 @@ body {
   object-fit: cover;
 }
 
-.venue-description {
+.venue-details-description {
   margin-bottom: var(--spacing-lg);
 }
 
-.venue-description h3 {
+.venue-details-description h3 {
   margin-bottom: var(--spacing-sm);
   color: var(--text-primary);
 }
 
-.venue-description p {
+.venue-details-description p {
   color: var(--text-secondary);
   line-height: 1.6;
 }
@@ -758,23 +757,6 @@ body {
   min-width: 80px;
 }
 
-.date-button:hover {
-  background-color: var(--bg-primary);
-  border-color: var(--primary-color);
-}
-
-.date-button.active {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  border-color: var(--primary-color);
-}
-
-.date-button.active .date-day,
-.date-button.active .date-number,
-.date-button.active .date-month {
-  color: var(--text-light);
-}
-
 .date-day {
   font-size: 0.75rem;
   color: var(--text-secondary);
@@ -791,6 +773,23 @@ body {
   font-size: 0.875rem;
   color: var(--text-secondary);
   margin-top: var(--spacing-xs);
+}
+
+.date-button:hover {
+  background-color: var(--bg-primary);
+  border-color: var(--primary-color);
+}
+
+.date-button.active {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-color: var(--primary-color);
+}
+
+.date-button.active .date-day,
+.date-button.active .date-number,
+.date-button.active .date-month {
+  color: var(--text-light);
 }
 
 /* Slots */
@@ -915,11 +914,8 @@ body {
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background-color: rgb(0 0 0 / 50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1284,16 +1280,6 @@ body {
   color: #ff9800;
 }
 
-.btn-sm {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  font-size: 0.875rem;
-  border-radius: var(--radius-sm);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 600;
-}
-
 .btn-success {
   background-color: #4CAF50;
   color: white;
@@ -1301,15 +1287,6 @@ body {
 
 .btn-success:hover {
   background-color: #45a049;
-}
-
-.btn-danger {
-  background-color: #f44336;
-  color: white;
-}
-
-.btn-danger:hover {
-  background-color: #da190b;
 }
 
 .filter-select {
@@ -1465,7 +1442,7 @@ body {
 .review-form textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  box-shadow: 0 0 0 3px rgb(0 123 255 / 10%);
 }
 
 .char-count {
@@ -1489,7 +1466,7 @@ body {
    RESPONSIVE
    ======================================== */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .header-content {
     flex-direction: column;
     gap: var(--spacing-md);
@@ -1614,7 +1591,7 @@ body {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #fff;
   }
   
   .header,
@@ -1627,19 +1604,19 @@ body {
     color: #213547;
   }
   
-  .header nav a {
-    color: #213547;
-  }
-  
-  .header nav a:hover {
-    background-color: #e0e0e0;
-  }
-  
   a {
     color: #646cff;
   }
   
   a:hover {
     color: #747bff;
+  }
+  
+  .header nav a {
+    color: #213547;
+  }
+  
+  .header nav a:hover {
+    background-color: #e0e0e0;
   }
 }

@@ -26,7 +26,7 @@
 
 ### Установка и запуск
 
-**Вариант 1: Локальная разработка**
+#### Вариант 1: Локальная разработка
 
 ```bash
 # Клонировать репозиторий
@@ -58,7 +58,7 @@ pnpm dev
 - **Backend API**: http://localhost:3000/api
 - **Frontend**: http://localhost:5173
 
-**Вариант 2: Через Docker Compose**
+#### Вариант 2: Через Docker Compose
 
 ```bash
 # Запустить все сервисы
@@ -136,21 +136,21 @@ task_05/
 
 ### Основные компоненты
 
-**Backend (src/apps/server)**
+#### Backend (src/apps/server)
 - Express.js сервер с TypeScript
 - Prisma ORM для работы с PostgreSQL
 - JWT аутентификация
 - Zod валидация запросов
 - Middleware для авторизации и ролей
 
-**Frontend (src/apps/web)**
+#### Frontend (src/apps/web)
 - React 18 с TypeScript
 - Vite для сборки
 - React Router v6 для маршрутизации
 - Axios для HTTP запросов
 - React Hook Form + Zod для валидации форм
 
-**База данных**
+#### База данных
 
 - PostgreSQL 15+
 - 6 основных таблиц: User, Venue, Slot, Booking, Review, Subscription
